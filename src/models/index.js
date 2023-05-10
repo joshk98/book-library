@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const ReaderModel = require("./reader");
 
 const { PGDATABASE, PGUSER, PGPASSWORD, PGHOST, PGPORT } = process.env;
 
@@ -10,8 +11,12 @@ const setupDatabase = () => {
     logging: false,
   });
 
+  const Reader = ReaderModel(connection, Sequelize);
+
   connection.sync({ alter: true });
-  return {};
+  return {
+    Reader,
+  };
 };
 
 module.exports = setupDatabase();
