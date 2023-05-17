@@ -16,6 +16,7 @@ describe("/readers", () => {
         const response = await request(app).post("/readers").send({
           name: "Elizabeth Bennet",
           email: "future_ms_darcy@gmail.com",
+          password: "password123",
         });
         const newReaderRecord = await Reader.findByPk(response.body.id, {
           raw: true,
@@ -25,6 +26,7 @@ describe("/readers", () => {
         expect(response.body.name).to.equal("Elizabeth Bennet");
         expect(newReaderRecord.name).to.equal("Elizabeth Bennet");
         expect(newReaderRecord.email).to.equal("future_ms_darcy@gmail.com");
+        expect(newReaderRecord.password).to.equal("password123");
       });
     });
   });
@@ -37,9 +39,18 @@ describe("/readers", () => {
         Reader.create({
           name: "Elizabeth Bennet",
           email: "future_ms_darcy@gmail.com",
+          password: "password123",
         }),
-        Reader.create({ name: "Arya Stark", email: "vmorgul@me.com" }),
-        Reader.create({ name: "Lyra Belacqua", email: "darknorth123@msn.org" }),
+        Reader.create({
+          name: "Arya Stark",
+          email: "vmorgul@me.com",
+          password: "password456",
+        }),
+        Reader.create({
+          name: "Lyra Belacqua",
+          email: "darknorth123@msn.org",
+          password: "password789",
+        }),
       ]);
     });
 
@@ -55,6 +66,7 @@ describe("/readers", () => {
 
           expect(reader.name).to.equal(expected.name);
           expect(reader.email).to.equal(expected.email);
+          expect(reader.password).to.equal(expected.password);
         });
       });
     });
@@ -67,6 +79,7 @@ describe("/readers", () => {
         expect(response.status).to.equal(200);
         expect(response.body.name).to.equal(reader.name);
         expect(response.body.email).to.equal(reader.email);
+        expect(response.body.password).to.equal(reader.password);
       });
 
       it("returns a 404 if the reader does not exist", async () => {
