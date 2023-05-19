@@ -3,16 +3,46 @@ module.exports = (connection, DataTypes) => {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          args: [true],
+          msg: "Title cannot be empty.",
+        },
+        notNull: {
+          args: [true],
+          msg: "Please enter a title.",
+        },
+      },
     },
     author: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notNull: {
+          args: [true],
+          msg: "Please enter an author.",
+        },
+      },
     },
     genre: {
       type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: [true],
+          msg: "Please enter a genre.",
+        },
+      },
     },
     ISBN: {
       type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: [true],
+          msg: "Please enter an ISBN.",
+        },
+      },
     },
   };
 

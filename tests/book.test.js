@@ -25,10 +25,36 @@ describe("/books", () => {
 
         expect(response.status).to.equal(201);
         expect(response.body.title).to.equal("Harry Potter");
+
         expect(newBookRecord.title).to.equal("Harry Potter");
         expect(newBookRecord.author).to.equal("J.K. Rowling");
         expect(newBookRecord.genre).to.equal("Fantasy");
         expect(newBookRecord.ISBN).to.equal("123456");
+      });
+
+      it("errors if any of the fields are missing", async () => {
+        const response = await request(app).post("/books").send({});
+        const newBookRecord = await Book.findByPk(response.body.id, {
+          raw: true,
+        });
+        expect(response.status).to.equal(400);
+        expect(response.body.errors.length).to.equal(4);
+        expect(newBookRecord).to.equal(null);
+      });
+
+      it("errors if title is an empty string", async () => {
+        const response = await request(app).post("/books").send({
+          title: "",
+          author: "John Doe",
+          genre: "Romance",
+          ISBN: "123456",
+        });
+        const newBookRecord = await Book.findByPk(response.body.id, {
+          raw: true,
+        });
+        expect(response.status).to.equal(400);
+        expect(response.body.errors.length).to.equal(1);
+        expect(newBookRecord).to.equal(null);
       });
     });
   });

@@ -1,7 +1,12 @@
 const { Book } = require("../models");
 
 exports.create = async (req, res) => {
-  res.status(201).json(await Book.create(req.body));
+  try {
+    res.status(201).json(await Book.create(req.body));
+  } catch (error) {
+    const errorMessages = error.errors?.map((e) => e.message);
+    res.status(400).json({ errors: errorMessages });
+  }
 };
 
 exports.findAll = async (_req, res) => {
