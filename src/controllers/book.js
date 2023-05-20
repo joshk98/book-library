@@ -1,40 +1,14 @@
-const { Book } = require("../models");
+const Helper = require("./helper");
 
-exports.create = async (req, res) => {
-  try {
-    res.status(201).json(await Book.create(req.body));
-  } catch (error) {
-    const errorMessages = error.errors?.map((e) => e.message);
-    res.status(400).json({ errors: errorMessages });
-  }
-};
+exports.create = (req, res) => Helper.createItem(res, "book", req.body);
 
-exports.findAll = async (_req, res) => {
-  res.status(200).json(await Book.findAll());
-};
+exports.findAll = (_req, res) => Helper.findAllItems(res, "book");
 
-exports.findByPk = async (req, res) => {
-  const book = await Book.findByPk(req.params.id);
-  if (!book) {
-    return res.status(404).json({ error: "The book could not be found." });
-  }
-  res.status(200).json(book);
-};
+exports.findByPk = async (req, res) =>
+  Helper.findItemByPk(res, "book", req.params.id);
 
-exports.update = async (req, res) => {
-  const [book] = await Book.update(req.body, {
-    where: { id: req.params.id },
-  });
-  if (!book) {
-    return res.status(404).json({ error: "The book could not be found." });
-  }
-  res.status(200).json(book);
-};
+exports.update = async (req, res) =>
+  Helper.updateItem(res, "book", req.body, req.params.id);
 
-exports.delete = async (req, res) => {
-  const book = await Book.destroy({ where: { id: req.params.id } });
-  if (!book) {
-    return res.status(404).json({ error: "The book could not be found." });
-  }
-  res.status(204).json(book);
-};
+exports.delete = async (req, res) =>
+  Helper.deleteItem(res, "book", req.params.id);

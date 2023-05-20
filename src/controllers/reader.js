@@ -10,6 +10,5 @@ exports.findByPk = async (req, res) =>
 exports.update = async (req, res) =>
   Helper.updateItem(res, "reader", req.body, req.params.id);
 
-exports.delete = async (req, res) => {
+exports.delete = async (req, res) =>
   Helper.deleteItem(res, "reader", req.params.id);
-};
