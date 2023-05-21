@@ -76,6 +76,8 @@ describe("/readers", () => {
     let readers;
 
     beforeEach(async () => {
+      await Reader.destroy({ where: {} });
+
       readers = await Promise.all([
         Reader.create({
           name: "Elizabeth Bennet",

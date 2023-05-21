@@ -63,6 +63,8 @@ describe("/books", () => {
     let books;
 
     beforeEach(async () => {
+      await Book.destroy({ where: {} });
+
       books = await Promise.all([
         Book.create({
           title: "Harry Potter",
