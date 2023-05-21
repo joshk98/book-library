@@ -42,6 +42,9 @@ module.exports = (connection, DataTypes) => {
           }
         },
       },
+      get() {
+        return undefined;
+      },
     },
   };
 

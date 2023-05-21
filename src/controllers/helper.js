@@ -35,18 +35,18 @@ exports.findItemByPk = async (res, model, id) => {
   if (!item) {
     return res.status(404).json(error404(model));
   }
+
   res.status(200).json(item);
 };
 
 exports.updateItem = async (res, model, item, id) => {
   const Model = getModel(model);
-  const [updatedItem] = await Model.update(item, {
-    where: { id },
-  });
+  const [updatedItem] = await Model.update(item, { where: { id } });
 
   if (!updatedItem) {
     return res.status(404).json(error404(model));
   }
+
   res.status(200).json(updatedItem);
 };
 
@@ -57,5 +57,6 @@ exports.deleteItem = async (res, model, id) => {
   if (!deletedItem) {
     return res.status(404).json(error404(model));
   }
+
   res.status(204).json(deletedItem);
 };
