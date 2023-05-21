@@ -16,7 +16,6 @@ describe("/books", () => {
         const response = await request(app).post("/books").send({
           title: "Harry Potter",
           author: "J.K. Rowling",
-          genre: "Fantasy",
           ISBN: "123456",
         });
         const newBookRecord = await Book.findByPk(response.body.id, {
@@ -28,7 +27,6 @@ describe("/books", () => {
 
         expect(newBookRecord.title).to.equal("Harry Potter");
         expect(newBookRecord.author).to.equal("J.K. Rowling");
-        expect(newBookRecord.genre).to.equal("Fantasy");
         expect(newBookRecord.ISBN).to.equal("123456");
       });
 
@@ -38,7 +36,7 @@ describe("/books", () => {
           raw: true,
         });
         expect(response.status).to.equal(400);
-        expect(response.body.errors.length).to.equal(4);
+        expect(response.body.errors.length).to.equal(3);
         expect(newBookRecord).to.equal(null);
       });
 
@@ -126,17 +124,17 @@ describe("/books", () => {
     });
 
     describe("PATCH /books/:id", () => {
-      it("updates books genre by id", async () => {
+      it("updates books details by id", async () => {
         const book = books[0];
         const response = await request(app)
           .patch(`/books/${book.id}`)
-          .send({ genre: "Science Fiction" });
+          .send({ author: "A different author" });
         const updatedBookRecord = await Book.findByPk(book.id, {
           raw: true,
         });
 
         expect(response.status).to.equal(200);
-        expect(updatedBookRecord.genre).to.equal("Science Fiction");
+        expect(updatedBookRecord.author).to.equal("A different author");
       });
 
       it("returns a 404 if the book does not exist", async () => {

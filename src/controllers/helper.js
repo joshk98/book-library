@@ -2,6 +2,11 @@ const { Book, Reader, Author, Genre } = require("../models");
 
 const error404 = (model) => ({ error: `The ${model} could not be found.` });
 
+const getOptions = (model) => {
+  if (model === "book") return { include: Genre };
+  if (model === "genre") return { include: Book };
+};
+
 const getModel = (model) => {
   const models = {
     book: Book,
@@ -26,13 +31,15 @@ exports.createItem = async (res, model, item) => {
 
 exports.findAllItems = async (res, model) => {
   const Model = getModel(model);
+  const options = getOptions(model);
 
-  res.status(200).json(await Model.findAll());
+  res.status(200).json(await Model.findAll({ ...options }));
 };
 
 exports.findItemByPk = async (res, model, id) => {
   const Model = getModel(model);
-  const item = await Model.findByPk(id);
+  const options = getOptions(model);
+  const item = await Model.findByPk(id, { ...options });
 
   if (!item) {
     return res.status(404).json(error404(model));
