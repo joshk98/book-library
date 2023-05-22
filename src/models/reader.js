@@ -37,10 +37,9 @@ module.exports = (connection, DataTypes) => {
           args: [true],
           msg: "Please enter a password.",
         },
-        isLessThan8(value) {
-          if (value.length < 8) {
-            throw new Error("Password needs to be longer than 8 characters.");
-          }
+        len: {
+          args: 8,
+          msg: "Password needs to be at least 8 characters long.",
         },
       },
       get() {
