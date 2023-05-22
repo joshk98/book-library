@@ -27,6 +27,7 @@ module.exports = (connection, DataTypes) => {
     ISBN: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         notNull: {
           args: [true],

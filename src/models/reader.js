@@ -17,6 +17,7 @@ module.exports = (connection, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         isEmail: {
           args: [true],

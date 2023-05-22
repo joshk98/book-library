@@ -44,12 +44,32 @@ describe("/books", () => {
         const response = await request(app).post("/books").send({
           title: "",
           author: "John Doe",
-          genre: "Romance",
           ISBN: "123456",
         });
         const newBookRecord = await Book.findByPk(response.body.id, {
           raw: true,
         });
+        expect(response.status).to.equal(400);
+        expect(response.body.errors.length).to.equal(1);
+        expect(newBookRecord).to.equal(null);
+      });
+
+      it("errors if the ISBN already exists", async () => {
+        Book.create({
+          title: "Harry Potter",
+          author: "J.K. Rowling",
+          ISBN: "123456",
+        });
+
+        const response = await request(app).post("/books").send({
+          title: "Harry Potter 2",
+          author: "J.K. Rowling",
+          ISBN: "123456",
+        });
+        const newBookRecord = await Book.findByPk(response.body.id, {
+          raw: true,
+        });
+
         expect(response.status).to.equal(400);
         expect(response.body.errors.length).to.equal(1);
         expect(newBookRecord).to.equal(null);
@@ -67,19 +87,16 @@ describe("/books", () => {
         Book.create({
           title: "Harry Potter",
           author: "J.K. Rowling",
-          genre: "Fantasy",
           ISBN: "123456",
         }),
         Book.create({
           title: "Percy Jackson",
           author: "Rick Riordan",
-          genre: "Fantasy",
           ISBN: "789101",
         }),
         Book.create({
           title: "Sherlock Holmes",
           author: "Arthur Conan Doyle",
-          genre: "Myster",
           ISBN: "987654",
         }),
       ]);
@@ -97,7 +114,6 @@ describe("/books", () => {
 
           expect(book.title).to.equal(expected.title);
           expect(book.author).to.equal(expected.author);
-          expect(book.genre).to.equal(expected.genre);
           expect(book.ISBN).to.equal(expected.ISBN);
         });
       });
@@ -111,7 +127,6 @@ describe("/books", () => {
         expect(response.status).to.equal(200);
         expect(response.body.title).to.equal(book.title);
         expect(response.body.author).to.equal(book.author);
-        expect(response.body.genre).to.equal(book.genre);
         expect(response.body.ISBN).to.equal(book.ISBN);
       });
 
@@ -140,7 +155,7 @@ describe("/books", () => {
       it("returns a 404 if the book does not exist", async () => {
         const response = await request(app)
           .patch("/books/12345")
-          .send({ genre: "Science Fiction" });
+          .send({ author: "A different author" });
 
         expect(response.status).to.equal(404);
         expect(response.body.error).to.equal("The book could not be found.");

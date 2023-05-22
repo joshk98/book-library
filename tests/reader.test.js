@@ -69,6 +69,27 @@ describe("/readers", () => {
         expect(response.body.errors.length).to.equal(1);
         expect(newReaderRecord).to.equal(null);
       });
+
+      it("errors if the email already exists", async () => {
+        Reader.create({
+          name: "Elizabeth Bennet",
+          email: "future_ms_darcy@gmail.com",
+          password: "password123",
+        });
+
+        const response = await request(app).post("/readers").send({
+          name: "Michael Jackson",
+          email: "future_ms_darcy@gmail.com",
+          password: "heeeheee",
+        });
+        const newReaderRecord = await Reader.findByPk(response.body.id, {
+          raw: true,
+        });
+
+        expect(response.status).to.equal(400);
+        expect(response.body.errors.length).to.equal(1);
+        expect(newReaderRecord).to.equal(null);
+      });
     });
   });
 
