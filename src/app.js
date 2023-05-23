@@ -12,4 +12,8 @@ app.use("/", bookRouter);
 app.use("/", authorRouter);
 app.use("/", genreRouter);
 
+app.get("/", (_req, res) => {
+  res.send("Hello World!");
+});
+
 module.exports = app;
