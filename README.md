@@ -50,7 +50,7 @@
 <p>The Book Library API includes unit tests to ensure its functionality.</p>
 <p>Create a docker container:</p>
 <pre><code>docker run --name book-library -p 5433:5432 -e POSTGRES_PASSWORD=password -d postgres</code></pre>
-<p>Create a .env.test file in your root with the following:</p>
+<p>Create an .env.test file in your root with the following:</p>
 <pre><code>
 PGPASSWORD=password
 PGDATABASE=book_library_dev_test
