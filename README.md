@@ -25,7 +25,7 @@
 
 <p>The server will start running on <code>http://localhost:4000</code>.</p>
 
-<h2>API Endpoints Example - /readers</h2>
+<h2>API Endpoints - /readers</h2>
 
 <h3>GET /</h3>
 <p>Returns a greeting message.</p>
