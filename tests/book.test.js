@@ -24,7 +24,6 @@ describe("/books", () => {
 
         expect(response.status).to.equal(201);
         expect(response.body.title).to.equal("Harry Potter");
-
         expect(newBookRecord.title).to.equal("Harry Potter");
         expect(newBookRecord.author).to.equal("J.K. Rowling");
         expect(newBookRecord.ISBN).to.equal("123456");
@@ -35,6 +34,7 @@ describe("/books", () => {
         const newBookRecord = await Book.findByPk(response.body.id, {
           raw: true,
         });
+
         expect(response.status).to.equal(400);
         expect(response.body.errors.length).to.equal(3);
         expect(newBookRecord).to.equal(null);
@@ -49,6 +49,7 @@ describe("/books", () => {
         const newBookRecord = await Book.findByPk(response.body.id, {
           raw: true,
         });
+
         expect(response.status).to.equal(400);
         expect(response.body.errors.length).to.equal(1);
         expect(newBookRecord).to.equal(null);
@@ -174,6 +175,7 @@ describe("/books", () => {
 
       it("returns a 404 if the book does not exist", async () => {
         const response = await request(app).delete("/books/12345");
+
         expect(response.status).to.equal(404);
         expect(response.body.error).to.equal("The book could not be found.");
       });

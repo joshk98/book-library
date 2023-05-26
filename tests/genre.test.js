@@ -22,7 +22,6 @@ describe("/genres", () => {
 
         expect(response.status).to.equal(201);
         expect(response.body.name).to.equal("Romance");
-
         expect(newGenreRecord.name).to.equal("Romance");
       });
 
@@ -31,6 +30,7 @@ describe("/genres", () => {
         const newGenreRecord = await Genre.findByPk(response.body.id, {
           raw: true,
         });
+
         expect(response.status).to.equal(400);
         expect(response.body.errors.length).to.equal(1);
         expect(newGenreRecord).to.equal(null);
@@ -156,6 +156,7 @@ describe("with records in the database", () => {
 
     it("returns a 404 if the genre does not exist", async () => {
       const response = await request(app).delete("/genres/12345");
+
       expect(response.status).to.equal(404);
       expect(response.body.error).to.equal("The genre could not be found.");
     });

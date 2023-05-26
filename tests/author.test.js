@@ -22,7 +22,6 @@ describe("/authors", () => {
 
         expect(response.status).to.equal(201);
         expect(response.body.name).to.equal("Dr. Seuss");
-
         expect(newAuthorRecord.name).to.equal("Dr. Seuss");
       });
 
@@ -31,6 +30,7 @@ describe("/authors", () => {
         const newAuthorRecord = await Author.findByPk(response.body.id, {
           raw: true,
         });
+
         expect(response.status).to.equal(400);
         expect(response.body.errors.length).to.equal(1);
         expect(newAuthorRecord).to.equal(null);
@@ -156,6 +156,7 @@ describe("with records in the database", () => {
 
     it("returns a 404 if the author does not exist", async () => {
       const response = await request(app).delete("/authors/12345");
+
       expect(response.status).to.equal(404);
       expect(response.body.error).to.equal("The author could not be found.");
     });

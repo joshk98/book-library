@@ -25,7 +25,6 @@ describe("/readers", () => {
         expect(response.status).to.equal(201);
         expect(response.body.name).to.equal("Elizabeth Bennet");
         expect(response.body.password).to.equal(undefined);
-
         expect(newReaderRecord.name).to.equal("Elizabeth Bennet");
         expect(newReaderRecord.email).to.equal("future_ms_darcy@gmail.com");
         expect(newReaderRecord.password).to.equal("password123");
@@ -40,6 +39,7 @@ describe("/readers", () => {
         const newReaderRecord = await Reader.findByPk(response.body.id, {
           raw: true,
         });
+
         expect(response.status).to.equal(400);
         expect(response.body.errors.length).to.equal(2);
         expect(newReaderRecord).to.equal(null);
@@ -50,6 +50,7 @@ describe("/readers", () => {
         const newReaderRecord = await Reader.findByPk(response.body.id, {
           raw: true,
         });
+
         expect(response.status).to.equal(400);
         expect(response.body.errors.length).to.equal(3);
         expect(newReaderRecord).to.equal(null);
@@ -191,6 +192,7 @@ describe("/readers", () => {
 
       it("returns a 404 if the reader does not exist", async () => {
         const response = await request(app).delete("/readers/12345");
+
         expect(response.status).to.equal(404);
         expect(response.body.error).to.equal("The reader could not be found.");
       });
