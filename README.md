@@ -20,12 +20,13 @@
 <pre><code>npm install</code></pre>
 
 <h3>Usage</h3>
+
 <p>Start the server:</p>
 <pre><code>npm start</code></pre>
 
 <p>The server will start running on <code>http://localhost:4000</code>.</p>
 
-<h2>API Endpoints - /readers</h2>
+<h2>API Endpoints: /readers</h2>
 
 <h3>GET /</h3>
 <p>Returns a greeting message.</p>
@@ -46,7 +47,18 @@
 <p>Deletes a reader record by ID.</p>
 
 <h2>Testing</h2>
-<p>The Book Library API includes unit tests to ensure its functionality. To run the tests, use the following command:</p>
+<p>The Book Library API includes unit tests to ensure its functionality.</p>
+<p>Create a docker container:</p>
+<pre><code>docker run --name book-library -p 5433:5432 -e POSTGRES_PASSWORD=password -d postgres</code></pre>
+<p>Create a .env.test file in your root with the following:</p>
+<pre><code>
+PGPASSWORD=password
+PGDATABASE=book_library_dev_test
+PGUSER=postgres
+PGHOST=localhost
+PGPORT=5433
+</pre></code>
+<p>To run the tests, use the following command:</p>
 <pre><code>npm test</code></pre>
 
 <h2>Contributing</h2>
